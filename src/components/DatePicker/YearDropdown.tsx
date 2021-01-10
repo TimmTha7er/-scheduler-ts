@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { buildYearsList } from './buildYearsList';
+import upBtnImg from '../../img/angle-up.svg';
+import downBtnImg from '../../img/angle-down.svg';
 
 type CalendarProps = {
   date: moment.Moment;
@@ -50,8 +52,14 @@ const YearDwopdown: React.FC<CalendarProps> = ({
 
   return (
     <div className='datepicker__year-dropdown'>
-      <div onClick={onBtnUpClick} className='datepicker__year-option'>
-        <span className='datepicker__navigation datepicker__navigation_years-upcoming icon icon-up-open-big'></span>
+      <div
+        onClick={onBtnUpClick}
+        className='datepicker__year-option datepicker__year-option_btn'
+      >
+        {/* <span className='datepicker__navigation datepicker__navigation_years-upcoming icon icon-up-open-big'> */}
+        <span className='datepicker__navigation datepicker__navigation_years-upcoming'>
+          <img className='datepicker__btn-img' src={upBtnImg} alt='^' />
+        </span>
       </div>
       {yearsList.years.map((item: moment.Moment, idx: number) => {
         const className: string = item.isSame(activeYear, 'year')
@@ -64,8 +72,14 @@ const YearDwopdown: React.FC<CalendarProps> = ({
           </div>
         );
       })}
-      <div onClick={onBtnDownClick} className='datepicker__year-option'>
-        <span className='datepicker__navigation datepicker__navigation_years-previous icon icon-down-open-big'></span>
+      <div
+        onClick={onBtnDownClick}
+        className='datepicker__year-option datepicker__year-option_btn'
+      >
+        {/* <span className='datepicker__navigation datepicker__navigation_years-previous icon icon-down-open-big'> */}
+        <span className='datepicker__navigation datepicker__navigation_years-previous'>
+          <img className='datepicker__btn-img' src={downBtnImg} alt='v' />
+        </span>
       </div>
     </div>
   );

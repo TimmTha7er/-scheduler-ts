@@ -11,6 +11,8 @@ import { RootState } from '../../redux/reducers/index';
 import { DatePickerActionTypes } from '../../redux/actions/datePicker';
 import { GridActionsType } from '../../redux/actions/range';
 import { PopupsActionTypes } from '../../redux/actions/popups';
+import leftBtnImg from '../../img/angle-left.svg';
+import rightBtnImg from '../../img/angle-right.svg';
 
 type GridNavProps = {
   setDate: (date: moment.Moment) => DatePickerActionTypes;
@@ -76,9 +78,12 @@ const GridNav: React.FC<GridNavProps> = ({
     <div className='gridnav header__gridnav'>
       <button
         onClick={onPrevBtnClick}
-        className='gridnav__btn gridnav__btn_prev icon icon-left-open-big'
+        // className='gridnav__btn gridnav__btn_prev icon icon-left-open-big'
+        className='gridnav__btn gridnav__btn_prev'
         title='Предыдущий период'
-      ></button>
+      >
+        <img className='gridnav__btn-img' src={leftBtnImg} alt='<' />
+      </button>
       <button
         onClick={onTodayBtnClick}
         className='gridnav__btn gridnav__btn_today'
@@ -88,9 +93,12 @@ const GridNav: React.FC<GridNavProps> = ({
 
       <button
         onClick={onNextBtnClick}
-        className='gridnav__btn gridnav__btn_next  icon icon-right-open-big'
+        // className='gridnav__btn gridnav__btn_next  icon icon-right-open-big'
+        className='gridnav__btn gridnav__btn_next'
         title='Следующий период'
-      ></button>
+      >
+        <img className='gridnav__btn-img' src={rightBtnImg} alt='>' />
+      </button>
     </div>
   );
 };

@@ -7,6 +7,9 @@ import {
 } from '../../redux/actions';
 import { PopupsActionTypes } from '../../redux/actions/popups';
 import { RootState } from '../../redux/reducers/index';
+import closeBtnImg from '../../img/close.svg';
+import deleteBtnImg from '../../img/trash-o.svg';
+import editBtnImg from '../../img/pencil.svg';
 
 type PreviewPopupProps = {
   eventTitle: string;
@@ -42,8 +45,15 @@ const PreviewPopup: React.FC<PreviewPopupProps> = ({
         <h2 className='preview-popup__title'>{eventTitle}</h2>
         <div
           onClick={onBtnCancelClick}
-          className='preview-popup__close icon icon-cancel-1'
-        ></div>
+          // className='preview-popup__close icon icon-cancel-1'
+          className='preview-popup__close'
+        >
+           <img
+              className='action-bar__btn-img action-bar__btn-img_close'
+              src={closeBtnImg}
+              alt='X'
+            />
+        </div>
       </div>
       <div className='preview-popup__descr'>
         {eventDescr.split('\n').map((item: string, idx: number) => {
@@ -58,12 +68,26 @@ const PreviewPopup: React.FC<PreviewPopupProps> = ({
         <div className='action-bar'>
           <button
             onClick={onBtnDeleteClick}
-            className='action-bar__btn icon icon-trash'
-          ></button>
+            // className='action-bar__btn icon icon-trash'
+            className='action-bar__btn icon'
+          >
+            <img
+              className='action-bar__btn-img'
+              src={deleteBtnImg}
+              alt='del'
+            />
+          </button>
           <button
             onClick={onBtnEditClick}
-            className='action-bar__btn icon icon-pencil'
-          ></button>
+            className='action-bar__btn'
+            // className='action-bar__btn icon icon-pencil'
+          >
+            <img
+              className='action-bar__btn-img'
+              src={editBtnImg}
+              alt='edit'
+            />
+          </button>
         </div>
       </div>
     </div>

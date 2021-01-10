@@ -29,12 +29,18 @@ const SelectedDate: React.FC<SelectedDateProps> = ({
   }, []);
 
   const handleOutsideClick = (e: any): void => {
-    if (!e.path.includes(monthRef.current)) {
+    if (e.path && !e.path.includes(monthRef.current)) {
       setVisibleMonthDropdown(false);
     }
-    if (!e.path.includes(yearRef.current)) {
+    if (e.path && !e.path.includes(yearRef.current)) {
       setVisibleYearDropdown(false);
     }
+    // if (!monthRef.current?.contains(e.target)) {
+    //   setVisibleMonthDropdown(false);
+    // }
+    // if (!yearRef.current?.contains(e.target)) {
+    //   setVisibleYearDropdown(false);
+    // }
   };
 
   const onSelectedMonthClick = (): void => {

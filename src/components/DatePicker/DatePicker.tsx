@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Calendar from './Calendar';
 import SelectedDate from './SelectedDate';
+import leftBtnImg from '../../img/angle-left.svg';
+import rightBtnImg from '../../img/angle-right.svg';
 
 const daysList: Array<string> = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
@@ -55,13 +57,19 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <button
           onClick={onBtnPrevClick}
           type='button'
-          className='datepicker__month-navigation datepicker__month-navigation_previous icon icon-left-open-big'
-        ></button>
+          // className='datepicker__month-navigation datepicker__month-navigation_previous icon icon-left-open-big'
+          className='datepicker__month-navigation datepicker__month-navigation_previous'
+        >
+          <img src={leftBtnImg} alt='<' />
+        </button>
         <button
           onClick={onBtnNextClick}
           type='button'
-          className='datepicker__month-navigation datepicker__month-navigation_next icon icon-right-open-big'
-        ></button>
+          // className='datepicker__month-navigation datepicker__month-navigation_next icon icon-right-open-big'
+          className='datepicker__month-navigation datepicker__month-navigation_next'
+        >
+          <img src={rightBtnImg} alt='>' />
+        </button>
 
         <SelectedDate
           value={value}

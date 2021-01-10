@@ -38,9 +38,12 @@ const Header: React.FC<HeaderProps> = ({
   }, []);
 
   const handleOutsideClick = (e: any): void => {
-    if (!e.path.includes(datePickerRef.current)) {
+    if (e.path && !e.path.includes(datePickerRef.current)) {
       setVisible(false);
     }
+    // if (!datePickerRef.current?.contains(e.target)) {
+    //   setVisible(false);
+    // }
   };
 
   const onSelectedDateClick = (): void => {

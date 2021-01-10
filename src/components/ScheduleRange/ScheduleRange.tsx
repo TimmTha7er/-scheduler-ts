@@ -41,10 +41,14 @@ const ScheduleRange: React.FC<ScheduleRangeProps> = ({
   }, []);
 
   const handleOutsideClick = (e: any) => {
-    if (!e.path.includes(datePickerRef.current)) {
+    if (e.path && !e.path.includes(datePickerRef.current)) {
       setLeftDatePickerVisible(false);
       setRightDatePickerVisible(false);
     }
+    // if (!datePickerRef.current?.contains(e.target)) {
+    //   setLeftDatePickerVisible(false);
+    //   setRightDatePickerVisible(false);
+    // }
   };
 
   const onStartDateClick = (): void => {

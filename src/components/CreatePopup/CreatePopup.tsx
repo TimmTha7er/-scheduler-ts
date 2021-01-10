@@ -8,6 +8,7 @@ import {
 import { GridActionsType, IEvent } from '../../redux/actions/grid';
 import { RootState } from '../../redux/reducers/index';
 import { PopupsActionTypes } from '../../redux/actions/popups';
+import closeBtnImg from '../../img/close.svg';
 
 type CreatePopupProps = {
   setCreatePopupVisible: (value: boolean) => PopupsActionTypes;
@@ -57,8 +58,15 @@ const CreatePopup: React.FC<CreatePopupProps> = ({
         <h2 className='create-popup__title'>{popupTitle}</h2>
         <div
           onClick={onCancelClick}
-          className='create-popup__close icon icon-cancel-1'
-        ></div>
+          // className='create-popup__close icon icon-cancel-1'
+          className='create-popup__close'
+        >
+          <img
+            className='create-popup__btn-img'
+            src={closeBtnImg}
+            alt='X'
+          />
+        </div>
       </div>
       <form onSubmit={onSubmitClick} className='form'>
         <div className='create-popup__content'>
