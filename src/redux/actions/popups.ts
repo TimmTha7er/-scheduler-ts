@@ -22,7 +22,6 @@ interface ISetDeletePopupVisible {
 
 interface ISetAllPopupsUnvisible {
   type: typeof SET_ALL_POPUPS_UNVISIBLE;
-  // ???
   payload?: never;
 }
 
@@ -56,7 +55,5 @@ export const setDeletePopupVisible = (value: boolean): PopupsActionTypes => {
 export const setALLPopupsUnvisible = (): PopupsActionTypes => {
   return {
     type: SET_ALL_POPUPS_UNVISIBLE,
-    // ???
-    // payload: value,
   };
 };

@@ -6,10 +6,7 @@ export interface IEvent {
 }
 
 export interface IEventList {
-  [name: string]: {
-    title: string;
-    descr: string;
-  };
+  [name: string]: IEvent;
 }
 
 export interface ICreateEvent {

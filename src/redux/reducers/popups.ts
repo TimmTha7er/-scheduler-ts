@@ -4,7 +4,6 @@ import {
   SET_DELETE_POPUP_VISIBLE,
   SET_ALL_POPUPS_UNVISIBLE,
 } from '../action-types';
-
 import { PopupsActionTypes } from '../actions/popups';
 
 interface IPopupsState {

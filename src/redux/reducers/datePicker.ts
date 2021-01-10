@@ -32,8 +32,6 @@ const datePickerReducer = (
     };
   }
 
-  console.log('state', state);
-
   return state;
 };
 
