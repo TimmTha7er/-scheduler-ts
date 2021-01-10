@@ -1,0 +1,217 @@
+.schedule-range {
+  border: solid 1px #e5e5e5;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+  padding: 30px;
+
+  &__datepicker {
+    position: absolute;
+    left: -60px;
+    top: 36px;
+    z-index: 22;
+  }
+
+  &__day {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 30px;
+  }
+
+  &__date {
+    opacity: 0.9;
+    white-space: nowrap;
+    margin-right: 25px;
+    padding: 10px 13px;
+  }
+
+  &__dayOfMonth {
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: 700;
+  }
+
+  &__month {
+    margin-left: 4px;
+    opacity: 0.7;
+    font-size: 18px;
+  }
+
+  &__year {
+    margin-left: 4px;
+    opacity: 0.7;
+    font-size: 18px;
+  }
+
+  &__dayOfWeek {
+    opacity: 0.7;
+    font-size: 15px;
+  }
+
+  &__event-list {
+    flex: 1;
+  }
+
+  &__event {
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+    font-size: 17px;
+    line-height: 24px;
+    padding: 10px 13px;
+    transition: background-color 0.15s ease-out;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+  }
+
+  &__event-title {
+    flex: 1;
+  }
+
+  &__title-inner {
+    max-width: 340px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: horizontal;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  &__time {
+    white-space: nowrap;
+    color: #999;
+  }
+
+  &__circle {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    color: rgb(72, 135, 225);
+    border-radius: 50%;
+    background-color: currentColor;
+    margin-top: 6px;
+    margin-right: 30px;
+    margin-left: 30px;
+  }
+
+  &__date-block {
+    display: flex;
+    align-items: center;
+  }
+
+  &__date-wrap {
+    position: relative;
+  }
+
+  &__range-wrap {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+  }
+
+  &__label {
+    font-size: 20px;
+    color: #999;
+    margin-right: 15px;
+  }
+
+  &__start-date,
+  &__end-date {
+    font-size: 25px;
+    border: 0;
+    box-sizing: border-box;
+    outline: 0;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0 10px;
+    transition: border-color 0.15s ease-out, border-width 0.15s ease-out,
+      outline-color 0.25s ease-out;
+    user-select: none;
+    cursor: pointer;
+
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .schedule-range {
+    padding: 15px;
+
+    &__title-inner {
+      max-width: 240px;
+    }
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  .schedule-range {
+    &__datepicker {
+      left: -130px !important;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .schedule-range {
+    position: relative;
+
+    &__date-wrap {
+      position: initial;
+    }
+
+    &__label {
+      margin-bottom: 20px;
+    }
+
+    &__day {
+      flex-direction: column;
+    }
+
+    &__range-wrap {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__date-wrap {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__start-date,
+    &__end-date {
+      margin: 0;
+    }
+
+    &__start-date+.datepicker {
+      left: 15px;
+    }
+
+    &__end-date+.datepicker {
+      left: initial !important;
+      right: 15px;
+    }
+
+    &__dash {
+      display: block;
+    }
+
+    &__title-inner {
+      max-width: 140px;
+    }
+
+    &__circle {
+      margin-right: 15px;
+      margin-left: 15px;
+    }
+
+    &__datepicker {
+      top: 100px;
+      left: 20px !important;
+    }
+  }
+}
