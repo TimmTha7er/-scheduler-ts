@@ -1,26 +1,37 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   setPreviewPopupVisible,
   setDeletePopupVisible,
   setCreatePopupVisible,
 } from '../../redux/actions';
+import { PopupsActionTypes } from '../../redux/actions/popups';
+import { RootState } from '../../redux/reducers/index';
 
-const PreviewPopup = ({
+type PreviewPopupProps = {
+  eventTitle: string;
+  eventDescr: string;
+  setPreviewPopupVisible: (value: boolean) => PopupsActionTypes;
+  setDeletePopupVisible: (value: boolean) => PopupsActionTypes;
+  setCreatePopupVisible: (value: boolean) => PopupsActionTypes;
+};
+
+const PreviewPopup: React.FC<PreviewPopupProps> = ({
   eventTitle,
   eventDescr,
   setPreviewPopupVisible,
   setDeletePopupVisible,
   setCreatePopupVisible,
-}: any) => {
-  const onBtnCancelClick = () => {
+}) => {
+  const onBtnCancelClick = (): void => {
     setPreviewPopupVisible(false);
   };
 
-  const onBtnDeleteClick = () => {
+  const onBtnDeleteClick = (): void => {
     setDeletePopupVisible(true);
   };
 
-  const onBtnEditClick = () => {
+  const onBtnEditClick = (): void => {
     setPreviewPopupVisible(false);
     setCreatePopupVisible(true);
   };
@@ -35,7 +46,7 @@ const PreviewPopup = ({
         ></div>
       </div>
       <div className='preview-popup__descr'>
-        {eventDescr.split('\n').map((item: any, idx: any) => {
+        {eventDescr.split('\n').map((item: string, idx: number) => {
           return (
             <span className='preview-popup__descr-item' key={idx}>
               {item}
@@ -59,7 +70,7 @@ const PreviewPopup = ({
   );
 };
 
-const mapStateToProps = ({ grid: { rowDate, events } }: any) => {
+const mapStateToProps = ({ grid: { rowDate, events } }: RootState) => {
   const { title: eventTitle, descr: eventDescr } = events[rowDate];
 
   return { eventTitle, eventDescr };

@@ -1,16 +1,25 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import Day from '../Day/Day';
 import ScheduleRange from '../ScheduleRange/ScheduleRange';
 import CreatePopup from '../CreatePopup/CreatePopup';
 import PreviewPopup from '../PreviewPopup/PreviewPopup';
 import DeletePopup from '../DeletePopup/DeletePopup';
+import { RootState } from '../../redux/reducers/index';
 
-const Main = ({
+type MainProps = {
+  isRangeVisible: boolean;
+  isCreatePopupVisible: boolean;
+  isPreviewPopupVisible: boolean;
+  isDeletePopupVisible: boolean;
+};
+
+const Main: React.FC<MainProps> = ({
   isRangeVisible,
   isCreatePopupVisible,
   isPreviewPopupVisible,
   isDeletePopupVisible,
-}: any) => {
+}) => {
   return (
     <main className='main'>
       {isRangeVisible ? <ScheduleRange /> : <Day />}
@@ -25,7 +34,7 @@ const Main = ({
 const mapStateToProps = ({
   range: { isRangeVisible },
   popups: { isCreatePopupVisible, isPreviewPopupVisible, isDeletePopupVisible },
-}: any) => {
+}: RootState) => {
   return {
     isRangeVisible,
     isCreatePopupVisible,

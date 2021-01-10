@@ -1,23 +1,34 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   setPreviewPopupVisible,
   setDeletePopupVisible,
   deleteEvent,
 } from '../../redux/actions';
+import { PopupsActionTypes } from '../../redux/actions/popups';
+import { GridActionsType } from '../../redux/actions/grid';
+import { RootState } from '../../redux/reducers/index';
 
-const DeletePopup = ({
+type DeletePopupProps = {
+  setDeletePopupVisible: (value: boolean) => PopupsActionTypes;
+  setPreviewPopupVisible: (value: boolean) => PopupsActionTypes;
+  deleteEvent: (date: moment.Moment) => GridActionsType;
+  rowDate: moment.Moment;
+};
+
+const DeletePopup: React.FC<DeletePopupProps> = ({
   setDeletePopupVisible,
   setPreviewPopupVisible,
   deleteEvent,
   rowDate,
-}: any) => {
-  const onBtnСonfirmClick = () => {
+}) => {
+  const onBtnСonfirmClick = (): void => {
     setPreviewPopupVisible(false);
     deleteEvent(rowDate);
     setDeletePopupVisible(false);
   };
 
-  const onBtnCancelClick = () => {
+  const onBtnCancelClick = (): void => {
     setDeletePopupVisible(false);
   };
 
@@ -42,7 +53,7 @@ const DeletePopup = ({
   );
 };
 
-const mapStateToProps = ({ grid: { rowDate } }: any) => {
+const mapStateToProps = ({ grid: { rowDate } }: RootState) => {
   return { rowDate };
 };
 

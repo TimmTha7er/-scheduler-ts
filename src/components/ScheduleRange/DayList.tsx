@@ -1,44 +1,27 @@
+import React from 'react';
 import { connect } from 'react-redux';
+import { buildRange, RangeType, DayOfRangeType, EventType } from './buildRange';
 import { setPreviewPopupVisible, setRowDate } from '../../redux/actions';
+import { RootState } from '../../redux/reducers/index';
+import { PopupsActionTypes } from '../../redux/actions/popups';
+import { GridActionsType } from '../../redux/actions/grid';
 
-const buildRange = (events: any, startDay: any, endDay: any) => {
-  let start = startDay.clone();
-  let end = endDay.clone().add(1, 'day');
-
-  if (startDay.isSameOrAfter(endDay)) {
-    end = startDay.clone().add(1, 'day');
-    start = endDay.clone();
-  }
-
-  const day = start.clone();
-  const range = [];
-  let dayEvents = [];
-
-  while (day.isBefore(end, 'day')) {
-    const startHour = day.clone().startOf('day').startOf('hour');
-    const endHour = day.clone().endOf('day').endOf('hour');
-    const hour = startHour.clone();
-
-    while (hour.isBefore(endHour)) {
-      if (events[hour]) {
-        dayEvents.push({ ...events[hour], time: hour.clone() });
-      }
-
-      hour.add(1, 'hour');
-    }
-
-    if (dayEvents.length > 0) {
-      range.push({ day: dayEvents, time: day.clone() });
-      dayEvents = [];
-    }
-
-    day.add(1, 'day');
-  }
-
-  return range;
+type DayListProps = {
+  events: {
+    [name: string]: {
+      title: string;
+      descr: string;
+    };
+  };
+  startOfRange: moment.Moment;
+  endOfRange: moment.Moment;
+  setPreviewPopupVisible: (value: boolean) => PopupsActionTypes;
+  setRowDate: (date: moment.Moment) => GridActionsType;
+  rowDate: moment.Moment;
+  isPreviewPopupVisible: boolean;
 };
 
-const DayList = ({
+const DayList: React.FC<DayListProps> = ({
   events,
   startOfRange,
   endOfRange,
@@ -46,20 +29,21 @@ const DayList = ({
   setRowDate,
   rowDate,
   isPreviewPopupVisible,
-}: any) => {
-  const range = buildRange(events, startOfRange, endOfRange);
-  const onEventClick = (time: any) => () => {
+}) => {
+  const range: RangeType = buildRange(events, startOfRange, endOfRange);
+
+  const onEventClick = (time: moment.Moment) => () => {
     setRowDate(time);
     setPreviewPopupVisible(true);
   };
 
   return (
     <div className='schedule-range__day-list'>
-      {range.map(({ day, time }, idx) => {
-        const dayOfMonth = time.clone().format('DD');
-        const month = time.clone().format('LL').split(' ')[1];
-        const year = time.clone().format('YYYY');
-        const dayOfWeek = time.clone().format('dddd');
+      {range.map(({ day, time }: DayOfRangeType, idx: number) => {
+        const dayOfMonth: string = time.clone().format('DD');
+        const month: string = time.clone().format('LL').split(' ')[1];
+        const year: string = time.clone().format('YYYY');
+        const dayOfWeek: string = time.clone().format('dddd');
 
         return (
           <div key={idx} className='schedule-range__day'>
@@ -70,11 +54,11 @@ const DayList = ({
               <div className='schedule-range__dayOfWeek'>{dayOfWeek}</div>
             </div>
             <div className='schedule-range__event-list'>
-              {day.map(({ time, title }, idx) => {
-                const start = time.clone().format('HH:mm');
-                const end = time.clone().add(1, 'hour').format('HH:mm');
+              {day.map(({ time, title }: EventType, idx: number) => {
+                const start: string = time.clone().format('HH:mm');
+                const end: string = time.clone().add(1, 'hour').format('HH:mm');
 
-                const selectedEvent =
+                const selectedEvent: string =
                   time.isSame(rowDate) && isPreviewPopupVisible
                     ? 'daygrid__row_selected'
                     : '';
@@ -111,7 +95,7 @@ const mapStateToProps = ({
   grid: { events, rowDate },
   range: { startOfRange, endOfRange },
   popups: { isPreviewPopupVisible },
-}: any) => {
+}: RootState) => {
   return {
     events,
     startOfRange,

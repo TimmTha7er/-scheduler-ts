@@ -1,7 +1,8 @@
 import { DELETE_EVENT, CREATE_EVENT, SET_ROW_DATE } from '../action-types';
 import { GridActionsType } from '../actions/grid';
 
-interface IDatePickerState {
+
+export interface IDatePickerState {
   rowDate: moment.Moment | null;
   events:
     | {

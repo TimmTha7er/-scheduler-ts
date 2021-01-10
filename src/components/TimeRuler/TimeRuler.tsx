@@ -1,4 +1,6 @@
-const TimeRuler = () => {
+import React from "react";
+
+const TimeRuler: React.FC  = () => {
   const timesList: Array<string> = Array(24).fill(0).map((item, idx: number) => {    
     return idx < 10 ? `0${idx}:00` : `${idx}:00`;
   });

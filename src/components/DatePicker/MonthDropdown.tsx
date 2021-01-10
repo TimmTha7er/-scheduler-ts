@@ -1,24 +1,21 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { buildMonthsList } from './buildMonthsList';
 
-const buildMonthsList = (value: any) => {
-  const startMonth = value.clone().startOf('year');
-  const endMonth = value.clone().endOf('year');
-
-  const month = startMonth.clone().subtract(1, 'month');
-  const monthsList = [];
-
-  while (month.isBefore(endMonth, 'month')) {
-    monthsList.push(month.add(1, 'month').clone());
-  }
-
-  return monthsList;
+type MonthDropdownProps = {
+  date: moment.Moment;
+  onChangeMonth: (month: moment.Moment) => void;
+  onSelectedMonthClick: () => void;
 };
 
-const MonthDropdown = ({ date, onChangeMonth, onSelectedMonthClick }: any) => {
-  const [activeMonth, setActiveMonth] = useState(date);
-  const monthsList = buildMonthsList(date);
+const MonthDropdown: React.FC<MonthDropdownProps> = ({
+  date,
+  onChangeMonth,
+  onSelectedMonthClick,
+}) => {
+  const [activeMonth, setActiveMonth] = useState<moment.Moment>(date);
+  const monthsList: moment.Moment[] = buildMonthsList(date);
 
-  const onMonthClick = (month: any) => () => {
+  const onMonthClick = (month: moment.Moment) => () => {
     setActiveMonth(month);
     onChangeMonth(month);
     onSelectedMonthClick();
@@ -26,7 +23,7 @@ const MonthDropdown = ({ date, onChangeMonth, onSelectedMonthClick }: any) => {
 
   return (
     <div className='datepicker__month-dropdown'>
-      {monthsList.map((item, idx) => {
+      {monthsList.map((item: moment.Moment, idx: number) => {
         const className = item.isSame(activeMonth, 'month')
           ? 'datepicker__month-name datepicker__month-name_selected'
           : 'datepicker__month-name';

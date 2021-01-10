@@ -1,3 +1,4 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   setStartOFRange,
@@ -6,8 +7,23 @@ import {
 } from '../../redux/actions';
 import moment from 'moment';
 import 'moment/locale/ru';
+import { RootState } from '../../redux/reducers/index';
+import { DatePickerActionTypes } from '../../redux/actions/datePicker';
+import { GridActionsType } from '../../redux/actions/range';
+import { PopupsActionTypes } from '../../redux/actions/popups';
 
-const GridNav = ({
+type GridNavProps = {
+  setDate: (date: moment.Moment) => DatePickerActionTypes;
+  date: moment.Moment;
+  isRangeVisible: boolean;
+  setStartOFRange: (date: moment.Moment) => GridActionsType;
+  setEndOFRange: (date: moment.Moment) => GridActionsType;
+  startOfRange: moment.Moment;
+  endOfRange: moment.Moment;
+  setALLPopupsUnvisible: () => PopupsActionTypes;
+};
+
+const GridNav: React.FC<GridNavProps> = ({
   setDate,
   date,
   isRangeVisible,
@@ -15,42 +31,42 @@ const GridNav = ({
   setEndOFRange,
   startOfRange,
   endOfRange,
-  setALLPopupsUnvisible
-}: any) => {
-  const onPrevBtnClick = () => {
-    const prevDay = date.clone().subtract(1, 'day');
+  setALLPopupsUnvisible,
+}) => {
+  const onPrevBtnClick = (): void => {
+    const prevDay: moment.Moment = date.clone().subtract(1, 'day');
     setDate(prevDay);
     setALLPopupsUnvisible();
 
     if (isRangeVisible) {
-      const start = startOfRange.clone().subtract(1, 'week');
-      const end = endOfRange.clone().subtract(1, 'week');
+      const start: moment.Moment = startOfRange.clone().subtract(1, 'week');
+      const end: moment.Moment = endOfRange.clone().subtract(1, 'week');
       setStartOFRange(start);
       setEndOFRange(end);
     }
   };
 
   const onTodayBtnClick = () => {
-    const today = moment();
+    const today: moment.Moment = moment();
     setDate(today);
     setALLPopupsUnvisible();
 
     if (isRangeVisible) {
-      const start = moment().clone().startOf('week');
-      const end = moment().clone().endOf('week');
+      const start: moment.Moment = moment().clone().startOf('week');
+      const end: moment.Moment = moment().clone().endOf('week');
       setStartOFRange(start);
       setEndOFRange(end);
     }
   };
 
   const onNextBtnClick = () => {
-    const nextDay = date.clone().add(1, 'day');
+    const nextDay: moment.Moment = date.clone().add(1, 'day');
     setDate(nextDay);
     setALLPopupsUnvisible();
 
     if (isRangeVisible) {
-      const start = startOfRange.clone().add(1, 'week');
-      const end = endOfRange.clone().add(1, 'week');
+      const start: moment.Moment = startOfRange.clone().add(1, 'week');
+      const end: moment.Moment = endOfRange.clone().add(1, 'week');
       setStartOFRange(start);
       setEndOFRange(end);
     }
@@ -82,14 +98,14 @@ const GridNav = ({
 const mapStateToProps = ({
   datePicker: { date },
   range: { isRangeVisible, startOfRange, endOfRange },
-}: any) => {
+}: RootState) => {
   return { date, isRangeVisible, startOfRange, endOfRange };
 };
 
 const mapDistatchToProps = {
   setStartOFRange,
   setEndOFRange,
-  setALLPopupsUnvisible
+  setALLPopupsUnvisible,
 };
 
 export default connect(mapStateToProps, mapDistatchToProps)(GridNav);

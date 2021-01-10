@@ -1,17 +1,27 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import { toggleRangeVisible, setALLPopupsUnvisible } from '../../redux/actions';
+import { RootState } from '../../redux/reducers/index';
+import { GridActionsType } from '../../redux/actions/range';
+import { PopupsActionTypes } from '../../redux/actions/popups';
 
-const RangeBtn = ({
+type RangeBtnProps = {
+  isRangeVisible: boolean;
+  toggleRangeVisible: () => GridActionsType;
+  setALLPopupsUnvisible: () => PopupsActionTypes;
+};
+
+const RangeBtn: React.FC<RangeBtnProps> = ({
   isRangeVisible,
   toggleRangeVisible,
   setALLPopupsUnvisible,
-}: any) => {
-  const onRangeBtnClick = () => {
+}) => {
+  const rangeBtnName: string = isRangeVisible ? 'День' : 'Расписание';
+
+  const onRangeBtnClick = (): void => {
     toggleRangeVisible();
     setALLPopupsUnvisible();
   };
-
-  const rangeBtnName = isRangeVisible ? 'День' : 'Расписание';
 
   return (
     <button onClick={onRangeBtnClick} className='header__range-btn'>
@@ -20,7 +30,7 @@ const RangeBtn = ({
   );
 };
 
-const mapStateToProps = ({ range: { isRangeVisible } }: any) => {
+const mapStateToProps = ({ range: { isRangeVisible } }: RootState) => {
   return { isRangeVisible };
 };
 

@@ -1,17 +1,17 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { buildYearsList } from './buildYearsList';
 
 type CalendarProps = {
   date: moment.Moment;
-  onChangeYear: (year: moment.Moment) => () => void;
+  onChangeYear: (year: moment.Moment) => void;
   onSelectedYearClick: () => void;
 };
 
-const YearDwopdown = ({
+const YearDwopdown: React.FC<CalendarProps> = ({
   date,
   onChangeYear,
   onSelectedYearClick,
-}: CalendarProps) => {
+}) => {
   const [yearsList, setYearsList] = useState<{
     years: moment.Moment[];
     middle: moment.Moment;
@@ -21,7 +21,7 @@ const YearDwopdown = ({
   });
   const [activeYear, setActiveYear] = useState<moment.Moment>(date);
 
-  const onBtnUpClick = () => {
+  const onBtnUpClick = (): void => {
     setYearsList((prevState) => {
       const newMiddle: moment.Moment = prevState.middle.clone().add(1, 'year');
       const newYearsList: moment.Moment[] = buildYearsList(newMiddle);
@@ -53,7 +53,7 @@ const YearDwopdown = ({
       <div onClick={onBtnUpClick} className='datepicker__year-option'>
         <span className='datepicker__navigation datepicker__navigation_years-upcoming icon icon-up-open-big'></span>
       </div>
-      {yearsList.years.map((item, idx) => {
+      {yearsList.years.map((item: moment.Moment, idx: number) => {
         const className: string = item.isSame(activeYear, 'year')
           ? 'datepicker__year-option datepicker__year-option_selected'
           : 'datepicker__year-option';

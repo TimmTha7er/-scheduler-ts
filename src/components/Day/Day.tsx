@@ -1,7 +1,8 @@
+import React from 'react';
 import TimeRuler from '../TimeRuler/TimeRuler';
 import DayGrid from '../DayGrid/DayGrid';
 
-const Day = () => {
+const Day: React.FC = () => {
   return (
     <div className='day'>
       <div className='day__left-col'>

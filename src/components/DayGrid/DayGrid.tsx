@@ -1,27 +1,34 @@
+import React from "react";
 import { connect } from 'react-redux';
 import {
   setCreatePopupVisible,
   setPreviewPopupVisible,
   setRowDate,
 } from '../../redux/actions';
+import { buildDayGrid } from './buildDayGrid';
 
-const buildDayGrid = (date: any) => {
-  const startHour = date.clone().startOf('day').startOf('hour');
-  const endHour = date.clone().endOf('day').endOf('hour');
+import { RootState } from '../../redux/reducers/index';
+import { PopupsActionTypes } from '../../redux/actions/popups';
+import { GridActionsType } from '../../redux/actions/grid';
 
-  const hour = startHour.clone().subtract(1, 'hour');
-  const dayGrid = [];
 
-  while (hour.isBefore(endHour, 'hour')) {
-    dayGrid.push(hour.add(1, 'hour').clone());
-  }
-
-  return dayGrid;
+type DayGridProps = {
+  date: moment.Moment;
+  rowDate: moment.Moment;
+  isCreatePopupVisible: boolean;
+  isPreviewPopupVisible: boolean;
+  setCreatePopupVisible: (value: boolean) => PopupsActionTypes;
+  setPreviewPopupVisible: (value: boolean) => PopupsActionTypes;
+  setRowDate: (date: moment.Moment | null) => GridActionsType;
+  events: {
+    [name: string]: {
+      title: string;
+      descr: string;
+    };
+  };
 };
 
-const DayGrid = ({
-  selectedMonthDay,
-  selectedWeedDay,
+const DayGrid: React.FC<DayGridProps> = ({
   date,
   rowDate,
   isCreatePopupVisible,
@@ -30,17 +37,19 @@ const DayGrid = ({
   setPreviewPopupVisible,
   setRowDate,
   events,
-}: any) => {
-  const dayGrid = buildDayGrid(date);
+}) => {
+  const dayGrid: moment.Moment[] = buildDayGrid(date);
+  const selectedMonthDay: string = date.format('D');
+  const selectedWeedDay: string = date.format('ddd');
 
-  const onRowClick = (time: any) => () => {
+  const onRowClick = (time: moment.Moment) => (): void => {
     if (!isCreatePopupVisible && !isPreviewPopupVisible) {
       setRowDate(time);
       setCreatePopupVisible(true);
     }
   };
 
-  const onEventClick = (time: any) => () => {
+  const onEventClick = (time: moment.Moment) => (): void => {
     if (!isCreatePopupVisible) {
       setRowDate(time);
       setPreviewPopupVisible(true);
@@ -61,27 +70,28 @@ const DayGrid = ({
       </div>
 
       <div className='daygrid__rows'>
-        {dayGrid.map((item, idx) => {
-          const selectedRow =
-            item.isSame(rowDate) 
-              ? 'daygrid__row_selected'
-              : '';
-          const selectedEvent = item.isSame(rowDate)
+        {dayGrid.map((time: moment.Moment, idx: number) => {
+          const selectedRow: string = time.isSame(rowDate)
+            ? 'daygrid__row_selected'
+            : '';
+          const selectedEvent: string = time.isSame(rowDate)
             ? 'grid-event_selected'
             : '';
 
-          const row = events[item] ? (
+          const row = events[time.toString()] ? (
             <div key={idx} className='daygrid__row'>
               <div
-                onClick={onEventClick(item)}
+                onClick={onEventClick(time)}
                 className={`grid-event ${selectedEvent}`}
               >
-                <span className='grid-event__inner'>{events[item].title}</span>
+                <span className='grid-event__inner'>
+                  {events[time.toString()].title}
+                </span>
               </div>
             </div>
           ) : (
             <div
-              onClick={onRowClick(item)}
+              onClick={onRowClick(time)}
               key={idx}
               className={`daygrid__row ${selectedRow}`}
             ></div>
@@ -98,13 +108,8 @@ const mapStateToProps = ({
   datePicker: { date },
   popups: { isCreatePopupVisible, isPreviewPopupVisible },
   grid: { rowDate, events },
-}: any) => {
-  const selectedMonthDay = date.format('D');
-  const selectedWeedDay = date.format('ddd');
-
+}: RootState) => {
   return {
-    selectedMonthDay,
-    selectedWeedDay,
     date,
     rowDate,
     isCreatePopupVisible,

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import GridNav from '../GridNav/GridNav';
 import DatePicker from '../DatePicker/DatePicker';
 import RangeBtn from '../RangeBtn/RangeBtn';
@@ -8,17 +8,28 @@ import {
   setDate,
   setALLPopupsUnvisible,
 } from '../../redux/actions';
+import { RootState } from '../../redux/reducers/index';
+import { PopupsActionTypes } from '../../redux/actions/popups';
+import { DatePickerActionTypes } from '../../redux/actions/datePicker';
 
-const Header = ({
-  selectedMonth,
-  selectedYear,
+type HeaderProps = {
+  isVisible: boolean;
+  setDate: (date: moment.Moment) => DatePickerActionTypes;
+  setVisible: (value: boolean) => DatePickerActionTypes;
+  date: moment.Moment;
+  setALLPopupsUnvisible: () => PopupsActionTypes;
+};
+
+const Header: React.FC<HeaderProps> = ({
   isVisible,
   setVisible,
   setDate,
   date,
   setALLPopupsUnvisible,
-}: any) => {
+}) => {
   const datePickerRef = useRef<HTMLDivElement>(null);
+  const selectedMonth: string = date.format('MMMM');
+  const selectedYear: string = date.format('YYYY');
 
   useEffect(() => {
     document.body.addEventListener('click', handleOutsideClick);
@@ -26,13 +37,13 @@ const Header = ({
     return () => document.body.removeEventListener('click', handleOutsideClick);
   }, []);
 
-  const handleOutsideClick = (e: any) => {
+  const handleOutsideClick = (e: any): void => {
     if (!e.path.includes(datePickerRef.current)) {
       setVisible(false);
     }
   };
 
-  const onSelectedDateClick = () => {
+  const onSelectedDateClick = (): void => {
     setVisible(!isVisible);
     setALLPopupsUnvisible();
   };
@@ -61,11 +72,8 @@ const Header = ({
   );
 };
 
-const mapStateToProps = ({ datePicker: { date, isVisible } }: any) => {
-  const selectedMonth = date.format('MMMM');
-  const selectedYear = date.format('YYYY');
-
-  return { selectedMonth, selectedYear, isVisible, date };
+const mapStateToProps = ({ datePicker: { date, isVisible } }: RootState) => {
+  return { isVisible, date };
 };
 
 const mapDistatchToProps = {

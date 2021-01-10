@@ -6,10 +6,23 @@ import {
   setLeftDatePickerVisible,
   setRightDatePickerVisible,
 } from '../../redux/actions';
+import { RootState } from '../../redux/reducers/index';
+import { GridActionsType } from '../../redux/actions/range';
 import DatePicker from '../DatePicker/DatePicker';
 import DayList from './DayList';
 
-const ScheduleRange: React.FC = ({
+type ScheduleRangeProps = {
+  startOfRange: moment.Moment;
+  endOfRange: moment.Moment;
+  setStartOFRange: (date: moment.Moment) => GridActionsType;
+  setEndOFRange: (date: moment.Moment) => GridActionsType;
+  isLeftDatePickerVisible: boolean;
+  isRightDatePickerVisible: boolean;
+  setRightDatePickerVisible: (value: boolean) => GridActionsType;
+  setLeftDatePickerVisible: (value: boolean) => GridActionsType;
+};
+
+const ScheduleRange: React.FC<ScheduleRangeProps> = ({
   startOfRange,
   endOfRange,
   setStartOFRange,
@@ -18,7 +31,7 @@ const ScheduleRange: React.FC = ({
   isRightDatePickerVisible,
   setRightDatePickerVisible,
   setLeftDatePickerVisible,
-}: any) => {
+}) => {
   const datePickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,8 +41,6 @@ const ScheduleRange: React.FC = ({
   }, []);
 
   const handleOutsideClick = (e: any) => {
-    console.log('e', e);
-    
     if (!e.path.includes(datePickerRef.current)) {
       setLeftDatePickerVisible(false);
       setRightDatePickerVisible(false);
@@ -104,7 +115,7 @@ const mapStateToProps = ({
     isLeftDatePickerVisible,
     isRightDatePickerVisible,
   },
-}: any) => {
+}: RootState) => {
   return {
     startOfRange,
     endOfRange,

@@ -1,43 +1,55 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
   setCreatePopupVisible,
   createEvent,
   setRowDate,
 } from '../../redux/actions';
+import { GridActionsType, IEvent } from '../../redux/actions/grid';
+import { RootState } from '../../redux/reducers/index';
+import { PopupsActionTypes } from '../../redux/actions/popups';
 
-const CreatePopup = ({
+type CreatePopupProps = {
+  setCreatePopupVisible: (value: boolean) => PopupsActionTypes;
+  createEvent: (event: IEvent) => GridActionsType;
+  setRowDate: (date: moment.Moment | null) => GridActionsType;
+  event?: { title?: string; descr?: string };
+};
+
+const CreatePopup: React.FC<CreatePopupProps> = ({
   setCreatePopupVisible,
   createEvent,
   setRowDate,
   event: { title: eventTitle = '', descr: eventDescr = '' } = {},
-}: any) => {
-  const [title, setTitle] = useState(eventTitle);
-  const [descr, setDescr] = useState(eventDescr);
+}) => {
+  const [title, setTitle] = useState<string>(eventTitle);
+  const [descr, setDescr] = useState<string>(eventDescr);
 
-  const onCancelClick = () => {
+  const popupTitle: string =
+    !eventTitle && !eventDescr ? 'Новое событие' : 'Редактирование события';
+
+  const submitBtnName: string =
+    !eventTitle && !eventDescr ? 'Создать' : 'Сохранить';
+
+  const onCancelClick = (): void => {
     setRowDate(null);
     setCreatePopupVisible(false);
   };
 
-  const onTitleChange = (e: any) => {
-    setTitle(e.target.value);
-  };
-  const onDescrChange = (e: any) => {
-    setDescr(e.target.value);
+  const onTitleChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    setTitle(e.currentTarget.value);
   };
 
-  const onSubmitClick = (e: any) => {
+  const onDescrChange = (e: React.FormEvent<HTMLTextAreaElement>): void => {
+    setDescr(e.currentTarget.value);
+  };
+
+  const onSubmitClick = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const ttitle = title.trim() === '' ? 'Без названия' : title;
+    const ttitle: string = title.trim() === '' ? 'Без названия' : title;
     createEvent({ title: ttitle, descr: descr });
     setCreatePopupVisible(false);
   };
-
-  const popupTitle =
-    !eventTitle && !eventDescr ? 'Новое событие' : 'Редактирование события';
-
-  const submitBtnName = !eventTitle && !eventDescr ? 'Создать' : 'Сохранить';
 
   return (
     <div className='create-popup'>
@@ -88,8 +100,8 @@ const CreatePopup = ({
   );
 };
 
-const mapStateToProps = ({ grid: { rowDate, events } }: any) => {
-  const event = events[rowDate];
+const mapStateToProps = ({ grid: { rowDate, events } }: RootState) => {
+  const event: IEvent = events[rowDate];
 
   return { event };
 };

@@ -1,40 +1,51 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Calendar from './Calendar';
 import SelectedDate from './SelectedDate';
-import { connect } from 'react-redux';
 
 const daysList: Array<string> = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
-const DatePicker = ({ date, setDate, setVisible, owner }: any) => {
+type DatePickerProps = {
+  date: moment.Moment;
+  setDate: (day: moment.Moment) => object;
+  setVisible: (value: boolean) => object;
+  owner: string;
+};
+
+const DatePicker: React.FC<DatePickerProps> = ({
+  date,
+  setDate,
+  setVisible,
+  owner,
+}) => {
   const [value, setValue] = useState<moment.Moment>(date);
 
-  const prevMonth = () => {
+  const prevMonth = (): moment.Moment => {
     return value.clone().subtract(1, 'month');
   };
 
-  const nextMonth = () => {
+  const nextMonth = (): moment.Moment => {
     return value.clone().add(1, 'month');
   };
 
-  const onBtnPrevClick = () => {
+  const onBtnPrevClick = (): void => {
     setValue(prevMonth());
   };
 
-  const onBtnNextClick = () => {
+  const onBtnNextClick = (): void => {
     setValue(nextMonth());
   };
 
-  const onDayClick = (day: any) => () => {
+  const onDayClick = (day: moment.Moment) => (): void => {
     setValue(day);
     setDate(day);
     setVisible(false);
   };
 
-  const onChangeMonth = (month: any) => {
+  const onChangeMonth = (month: moment.Moment): void => {
     setValue(month);
   };
 
-  const onChangeYear = (year: any) => {
+  const onChangeYear = (year: moment.Moment): void => {
     setValue(year);
   };
 
@@ -59,7 +70,7 @@ const DatePicker = ({ date, setDate, setVisible, owner }: any) => {
         ></SelectedDate>
 
         <div className='datepicker__day-names'>
-          {daysList.map((item, idx) => {
+          {daysList.map((item: string, idx: number) => {
             return (
               <div key={idx} className='datepicker__day-name'>
                 {item}
@@ -74,10 +85,4 @@ const DatePicker = ({ date, setDate, setVisible, owner }: any) => {
   );
 };
 
-const mapStateToProps = () => {
-  return {};
-};
-
-const mapDistatchToProps = {};
-
-export default connect(mapStateToProps, mapDistatchToProps)(DatePicker);
+export default DatePicker;

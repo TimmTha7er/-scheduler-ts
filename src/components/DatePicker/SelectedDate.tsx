@@ -1,10 +1,24 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import YearDropdown from './YearDropdown';
 import MonthDropdown from './MonthDropdown';
 
-const SelectedDate = ({ value, onChangeMonth, onChangeYear }: any) => {
-  const [visibleMonthDropdown, setVisibleMonthDropdown] = useState(false);
-  const [visibleYearDropdown, setVisibleYearDropdown] = useState(false);
+type SelectedDateProps = {
+  value: moment.Moment;
+  onChangeMonth: (month: moment.Moment) => void;
+  onChangeYear: (year: moment.Moment) => void;
+};
+
+const SelectedDate: React.FC<SelectedDateProps> = ({
+  value,
+  onChangeMonth,
+  onChangeYear,
+}) => {
+  const [visibleMonthDropdown, setVisibleMonthDropdown] = useState<boolean>(
+    false
+  );
+  const [visibleYearDropdown, setVisibleYearDropdown] = useState<boolean>(
+    false
+  );
   const monthRef = useRef<HTMLDivElement>(null);
   const yearRef = useRef<HTMLDivElement>(null);
 
@@ -14,7 +28,7 @@ const SelectedDate = ({ value, onChangeMonth, onChangeYear }: any) => {
     return () => document.body.removeEventListener('click', handleOutsideClick);
   }, []);
 
-  const handleOutsideClick = (e: any) => {
+  const handleOutsideClick = (e: any): void => {
     if (!e.path.includes(monthRef.current)) {
       setVisibleMonthDropdown(false);
     }
@@ -23,19 +37,19 @@ const SelectedDate = ({ value, onChangeMonth, onChangeYear }: any) => {
     }
   };
 
-  const onSelectedMonthClick = () => {
+  const onSelectedMonthClick = (): void => {
     setVisibleMonthDropdown((prevState) => !prevState);
   };
 
-  const onSelectedYearClick = () => {
+  const onSelectedYearClick = (): void => {
     setVisibleYearDropdown((prevState) => !prevState);
   };
 
-  const currYear = () => {
+  const currYear = (): string => {
     return value.format('YYYY');
   };
 
-  const currMonthName = () => {
+  const currMonthName = (): string => {
     return value.format('MMMM');
   };
 
